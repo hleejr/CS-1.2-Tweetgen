@@ -1,0 +1,10 @@
+monkey elephant giraffe dolphin
+lion zebra elephant
+zebra elephant giraffe otter giraffe giraffe
+giraffe tiger lion snake penguin lion penguin otter
+penguin otter giraffe otter tiger monkey giraffe
+monkey zebra monkey
+zebra penguin monkey tiger dolphin penguin giraffe
+giraffe lion snake lion monkey zebra
+elephant zebra giraffe dolphin penguin lion monkey penguin
+giraffe otter lion tiger otter lion zebra
