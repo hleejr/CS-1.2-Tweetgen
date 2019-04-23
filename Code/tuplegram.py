@@ -2,7 +2,7 @@ with open("quotes.txt") as word_file:
     quotes = set(word.strip().lower() for word in word_file)
 
 def count_words(seq):
-    hist = {}
+    hist = []
     lines = [line.rstrip('\n').strip(' ') for line in open('quotes.txt')]
     words = []
 
@@ -13,11 +13,14 @@ def count_words(seq):
         for word in words_in_line:
             words.append(word) 
 
-    for word in words:
-        if word in hist:
-            hist[word] += 1 
-        else:
-            hist[word] = 1
+    for i in words:
+        word = i
+        count = 1
+        for j in words:
+            if i == j:
+                words.remove(j)
+                count += 1
+        hist.append((word, count))
 
     return hist
 

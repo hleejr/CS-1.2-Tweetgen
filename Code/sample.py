@@ -1,6 +1,6 @@
 import sys
 import random
-import histogram as hi
+import histogram2 as hi
 import listogram as li
 
 hist = hi.count_words(hi.quotes)
@@ -20,17 +20,15 @@ def probability(seq):
 
 def sample(seq):
     # randomly generates a number between 0 and 1 and selects a word from the sequence with matching probability
-    prob = probability(seq)
-    rand = random.random()
-    found = False
+    total = sum(hist.values()) 
+    rand = random.random() # number to beat to be selected
+    accumulator = 0 # total accumulated value of weighted words
     
-    while found == False:
-        for i in range(len(prob)):
-            if rand <= prob[i][1]:
-                found = True
-                return prob[i][0]
-            else:
-                rand = random.random()
+    for word, count in hist.items():
+        accumulator += count/total 
+        if accumulator > rand: 
+            return word
+           
 
 def test(seq):
     # test if word occurances matches with the probabilty of word
@@ -49,6 +47,5 @@ def test(seq):
 
 if __name__ == '__main__':
     rand = sample(hist)
-    test = test(hist)
-    # print(rand)
-    print(test)
+    # test = test(hist)
+    print(rand)
