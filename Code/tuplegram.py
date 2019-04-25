@@ -15,7 +15,7 @@ def count_words(seq):
 
     for i in words:
         word = i
-        count = 1
+        count = 0
         for j in words:
             if i == j:
                 words.remove(j)

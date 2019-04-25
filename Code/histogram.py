@@ -1,24 +1,26 @@
 with open("quotes.txt") as word_file:
     quotes = set(word.strip().lower() for word in word_file)
 
+lines = [line.rstrip('\n').strip(' ') for line in open('quotes.txt')]
+
 def count_words(seq):
     hist = []
-    lines = [line.rstrip('\n').strip(' ') for line in open('quotes.txt')]
-    words = []
+    # lines = [line.rstrip('\n').strip(' ') for line in open('quotes.txt')]
+    # words = []
 
-    for line in lines:
-        line = str(line)
-        words_in_line = line.split()
+    # for line in lines:
+    #     line = str(line)
+    #     words_in_line = line.split()
 
-        for word in words_in_line:
-            words.append(word) 
+    #     for word in words_in_line:
+    #         words.append(word) 
 
-    for i in words:
+    for i in seq:
         word = i
-        count = 1
-        for j in words:
+        count = 0
+        for j in seq:
             if i == j:
-                words.remove(j)
+                seq.remove(j)
                 count += 1
         hist.append([word, count])
 
