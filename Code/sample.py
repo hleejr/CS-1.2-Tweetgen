@@ -42,7 +42,7 @@ def test(seq):
 if __name__ == '__main__':
     data = ["one",'fish','two','fish','red','fish','blue', 'fish']
     hist = hi.count_words(data)
-    # hist = hi.count_words(hi.quotes)
+    # hist = hi.count_words(hi.words)
     print(probability(hist))
     print(test(hist))
 
