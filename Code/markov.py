@@ -1,74 +1,57 @@
-import dictionary as rans
 import random
+from dictogram import Dictogram
+from corpus import words
 
-def make_model():
-    lines = rans.lines
-    model = {'START-':[], 'END-': []}
-    start = model['START-']
-    end = model['END-']
-    new = {}
+def higher_markov(seq):
+    # tracks the pairs that start and end sentences
+    model = Dictogram(['START', 'END'])
+    model['START'] = {}
+    model['END'] = {}
+ 
+    for index in range(len(seq)-2):
+        # create the pair to store in the model
+        pair = ( seq[index], seq[index + 1] )
+        next_word = seq[index + 2]
+        model[pair] = {}
+        # check to see if pair belongs as START or STOP token
+        if pair[0].islower() is False and pair[0].endswith('.') is False:
+            # check if pair is already stored as a token, if so increase frequency
+            if pair in model['START']:
+                model['START'][pair] += 1
+            else:
+                model['START'][pair] = 1
+        if pair[1].islower() is True and pair[1].endswith('.') is True:
+            # check if pair is already stored as a token, if so increase frequency
+            if pair in model['END']:
+                model['END'][pair] += 1
+            else: 
+                model['END'][pair] = 1
+        # # store the word that follows the pair and it's frequency
+        if next_word in model[pair]:
+            model[pair][next_word] += 1
+        else:
+            model[pair][next_word] = 1
 
-    for line in lines:
-        words = line.split(' ')
-        first = line.split(' ')[0].lower().replace("?", "").replace("!", "").replace(".", "").replace(",", "").replace("…","")
-        last = line.split(' ')[-1].lower().replace("?", "").replace("!", "").replace(".", "").replace(",", "").replace("…","")
-        start.append(first)
-        end.append(last)
-        for word in words:
-            word = word.lower().replace("?", "").replace("!", "").replace(".", "").replace(",", "").replace("…","")
-            model[word] = []
-    for word in start:
-        for wrd in start:
-            if wrd == word:
-                start.remove(wrd)
-    for word in end:
-        for wrd in end:
-            if word == wrd:
-                end.remove(wrd)
+    return model
 
-    for key,value in model.items():
-        if key not in new.items():
-            new[key] = value
-    
-    return new
-
-def check_pairs():
-    pairs = make_model()
-    lines = rans.lines
-    arr = []
-    index = 0
-
-    for line in lines:
-        line = line.split(' ')
-        arr.append(line)
-
-    while index < len(arr):
-        line = arr[index]
-        for i in range(len(line)):
-            add = line[i].lower().replace("?", "").replace("!", "").replace(".", "").replace(",", "").replace("…","")
-            target = line[i - 1].lower().replace("?", "").replace("!", "").replace(".", "").replace(",", "").replace("…","")
-            if target in pairs:
-                pairs[target].append(add)
-        index = index + 1
-    return pairs
-
-def make_sentence():
-    markov = check_pairs()
-    start = markov['START-']
-    # end = markov['END-']
+def markov_sentence(seq):
+    markov = higher_markov(seq)
     sentence = []
-    sentence.insert(0, random.choice(start))
-    # sentence.insert(1, random.choice(end))
-    length = random.randint(10,20)
+    start = random.choice(list(markov['START'].keys()))
+    sentence.extend(start)
     index = 1
+    current = start
 
-    while len(sentence) < length:
-        sentence.insert(index, random.choice(markov[sentence[index-1]]))
-        index = index + 1
+    while current not in markov['END']:
+
+        next_word = random.choice(list(markov[current].keys()))
+        current = (current[1] , next_word)
+        sentence.insert(index, next_word)
+        index += 1
     
-    return " ".join(sentence)
+    return " ".join(sentence[:-1])
 
 if __name__ == '__main__':
-    make_model()
-    check_pairs()
-    print(check_pairs())
+    # print(higher_markov(words))
+    print(markov_sentence(words))
+
