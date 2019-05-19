@@ -1,5 +1,6 @@
 import random
 from dictogram import Dictogram
+from sample import sample
 from corpus import words
 
 def higher_markov(seq):
@@ -44,9 +45,9 @@ def markov_sentence(seq):
 
     while current not in markov['END']:
 
-        next_word = random.choice(list(markov[current].keys()))
-        current = (current[1] , next_word)
+        next_word = sample(markov[current])
         sentence.insert(index, next_word)
+        current = (current[1] , next_word)
         index += 1
     
     return " ".join(sentence[:-1])
